@@ -18,7 +18,7 @@ def predict_rub_salary(name_vacancy):
     salary_from_to = response.json()['items']
     expected_salary = []
     for vacancy in salary_from_to:
-        if vacancy['salary']['from'] and vacancy['salary']['to'] and vacancy['salary']['currency']:
+        if vacancy['salary']['from'] and vacancy['salary']['to'] and vacancy['salary']['currency'] == 'RUR':
             expected_salary.append((vacancy['salary']['from'] + vacancy['salary']['to']) / 2)
             if vacancy['salary']['from'] and vacancy['salary']['to'] is None:
                 expected_salary.append(vacancy['salary']['from'] * 1.2)
