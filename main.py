@@ -9,14 +9,22 @@ def search_vacancies_programmer(program_lang):
     return response.json()['found']
 
 
-def search_by_salary():
+def predict_rub_salary(name_vacancy):
     headers = {'User-Agent': 'HH-User-Agent'}
-    params = {'text': 'Программист Python',
+    params = {'text': name_vacancy,
               'area': 1,
               'only_with_salary': 'true'}
-    response = requests.get('https://api.hh.ru/vacancies/', params=params, headers=headers)
-    for vacancy in response.json()['items']:
-        print(vacancy['salary'])
+    response = requests.get(f'https://api.hh.ru/vacancies/', params=params, headers=headers)
+    salary_from_to = response.json()['items']
+    expected_salary = []
+    for vacancy in salary_from_to:
+        if vacancy['salary']['from'] and vacancy['salary']['to'] and vacancy['salary']['currency']:
+            expected_salary.append((vacancy['salary']['from'] + vacancy['salary']['to']) / 2)
+            if vacancy['salary']['from'] and vacancy['salary']['to'] is None:
+                expected_salary.append(vacancy['salary']['from'] * 1.2)
+                if vacancy['salary']['to'] and vacancy['salary']['from'] is None:
+                    expected_salary.append(vacancy['salary']['to'] * 0.8)
+    return expected_salary
 
 
 programmer_languages = {'JavaScript': search_vacancies_programmer('JavaScript'),
@@ -31,4 +39,5 @@ programmer_languages = {'JavaScript': search_vacancies_programmer('JavaScript'),
                         'Shell': search_vacancies_programmer('Shell')}
 
 
-search_by_salary()
+for i in predict_rub_salary('Программист Python'):
+    print(i)
