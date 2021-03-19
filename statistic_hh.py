@@ -5,14 +5,14 @@ import requests
 
 
 def fetch_records(program_lang):
-    url = 'https://api.hh.ru/vacancies'
+    api_hh = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
     for page in count():
         params = {'text': f'Программист {program_lang}',
                   'page': page,
                   'area': 1,
                   'only_with_salary': 'true'}
-        page_response = requests.get(url, params=params, headers=headers)
+        page_response = requests.get(api_hh, params=params, headers=headers)
         page_response.raise_for_status()
         page_data = page_response.json()
         if page >= page_data['pages']:
@@ -21,10 +21,11 @@ def fetch_records(program_lang):
 
 
 def search_vacancies_programmer(program_lang):
+    api_hh = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
     params = {'text': f'Программист {program_lang}',
               'area': 1}
-    response = requests.get('https://api.hh.ru/vacancies', params=params, headers=headers)
+    response = requests.get(api_hh, params=params, headers=headers)
     response.raise_for_status()
     return response.json()['found']
 
