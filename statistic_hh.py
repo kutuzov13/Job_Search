@@ -42,12 +42,12 @@ def predict_rub_salary(salary):
 
 def vacancies_processed(program_lang):
     number_vacancies = [predict_rub_salary(vacancy['salary']) for vacancy in fetch_records(program_lang)]
-    return len([i for i in number_vacancies if i is not None])
+    return len([processed for processed in number_vacancies if processed is not None])
 
 
 def get_avg_salary(program_lang):
-    ls = [predict_rub_salary(salary['salary']) for salary in fetch_records(program_lang)]
-    return int(statistics.mean([x for x in ls if x is not None]))
+    avg_salaries = [predict_rub_salary(salary['salary']) for salary in fetch_records(program_lang)]
+    return int(statistics.mean([avg_salary for avg_salary in avg_salaries if avg_salary is not None]))
 
 
 top_programmer_languages = {'JavaScript': {'vacancies_found': search_vacancies_programmer('JavaScript'),
