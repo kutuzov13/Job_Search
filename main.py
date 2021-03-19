@@ -8,6 +8,7 @@ def search_vacancies_programmer(program_lang):
     params = {'text': f'Программист {program_lang}',
               'area': 1}
     response = requests.get('https://api.hh.ru/vacancies', params=params, headers=headers)
+    response.raise_for_status()
     return response.json()['found']
 
 
@@ -17,6 +18,7 @@ def predict_rub_salary(program_lang):
               'area': 1,
               'only_with_salary': 'true'}
     response = requests.get(f'https://api.hh.ru/vacancies/', params=params, headers=headers)
+    response.raise_for_status()
     salary_from_to = response.json()['items']
 
     expected_salary = []
