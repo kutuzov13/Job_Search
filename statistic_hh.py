@@ -69,37 +69,5 @@ def main():
     return static_vacancy
 
 
-# top_programmer_languages = {'JavaScript': {'vacancies_found': search_vacancies_programmer('JavaScript'),
-#                                            'vacancies_processed': vacancies_processed('JavaScript'),
-#                                            'average_salary': get_avg_salary('JavaScript')},
-#                             'Java': {'vacancies_found': search_vacancies_programmer('Java'),
-#                                      'vacancies_processed': vacancies_processed('Java'),
-#                                      'average_salary': get_avg_salary('Java')},
-#                             'Python': {'vacancies_found': search_vacancies_programmer('Python'),
-#                                        'vacancies_processed': vacancies_processed('Python'),
-#                                        'average_salary': get_avg_salary('Python')},
-#                             'Ruby': {'vacancies_found': search_vacancies_programmer('Ruby'),
-#                                       'vacancies_processed': vacancies_processed('Ruby'),
-#                                       'average_salary': get_avg_salary('Ruby')},
-#                             'PHP': {'vacancies_found': search_vacancies_programmer('PHP'),
-#                                     'vacancies_processed': vacancies_processed('PHP'),
-#                                     'average_salary': get_avg_salary('PHP')},
-#                             'C++': {'vacancies_found': search_vacancies_programmer('C++'),
-#                                     'vacancies_processed': vacancies_processed('C++'),
-#                                     'average_salary': get_avg_salary('C++')},
-#                             'C#': {'vacancies_found': search_vacancies_programmer('C#'),
-#                                    'vacancies_processed': vacancies_processed('C#'),
-#                                    'average_salary': get_avg_salary('C#')},
-#                             'C': {'vacancies_found': search_vacancies_programmer('C'),
-#                                   'vacancies_processed': vacancies_processed('C'),
-#                                   'average_salary': get_avg_salary('C')},
-#                             'Go': {'vacancies_found': search_vacancies_programmer('Go'),
-#                                    'vacancies_processed': vacancies_processed('Go'),
-#                                    'average_salary': get_avg_salary('Go')},
-#                             'Shell': {'vacancies_found': search_vacancies_programmer('Shell'),
-#                                       'vacancies_processed': vacancies_processed('Shell'),
-#                                       'average_salary': get_avg_salary('Shell')}}
-
-
 if __name__ == '__main__':
     print(main())
