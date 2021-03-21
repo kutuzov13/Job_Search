@@ -1,12 +1,9 @@
-from dotenv import load_dotenv
-
 from terminaltable import get_table_data, create_table
 from statistic_hh import statistic_hh
 from statistic_sj import statistic_sj
 
 
 def main():
-    load_dotenv()
     print('Wait for the data to be received...')
 
     hh_info = statistic_hh()

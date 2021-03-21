@@ -5,11 +5,12 @@ from itertools import count
 import requests
 from dotenv import load_dotenv
 
+load_dotenv()
+
+TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
+
 
 def fetch_records(program_lang):
-    load_dotenv()
-
-    TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
 
     api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': TOKEN_SUPER_JOB}
@@ -31,10 +32,6 @@ def fetch_records(program_lang):
 
 
 def search_vacancies_programmer(program_lang):
-    load_dotenv()
-
-    TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
-
     api_hh = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': TOKEN_SUPER_JOB}
     params = {'town': 4,
@@ -90,7 +87,3 @@ def statistic_sj():
                                             'vacancies_processed': vacancies_processed(program_language),
                                             'average_salary': get_avg_salary(program_language)}
     return static_vacancy
-
-
-if __name__ == '__main__':
-    print(statistic_sj())
