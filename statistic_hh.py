@@ -62,7 +62,7 @@ def statistic_hh():
                                 'C#',
                                 'C',
                                 'Go',
-                                'Shell']
+                                'Swift']
     for program_language in top_programmer_languages:
         static_vacancy[program_language] = {'vacancies_found': search_vacancies_programmer(program_language),
                                             'vacancies_processed': vacancies_processed(program_language),

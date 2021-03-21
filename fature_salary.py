@@ -7,7 +7,7 @@ from statistic_sj import statistic_sj
 
 def main():
     load_dotenv()
-    print('Выполняется..')
+    print('Выполняется...')
 
     hh_info = statistic_hh()
     sj_info = statistic_sj()
