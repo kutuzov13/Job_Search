@@ -1,36 +1,96 @@
 import os
+import statistics
+from itertools import count
 
 import requests
 from dotenv import load_dotenv
 
-load_dotenv()
 
-TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
+def fetch_records(program_lang):
+    load_dotenv()
 
+    TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
 
-def predict_rub_salary_for_sj(token, program_language):
     api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': token}
-    params = {'town': 'Москва',
-              'keyword': f'Программист {program_language}'}
+    headers = {'X-Api-App-Id': TOKEN_SUPER_JOB}
+    for page in count(0):
+        params = {'town': 4,
+                  'page': page,
+                  'keyword': f'Программист {program_lang}'}
 
-    response = requests.get(api_super_job, params=params, headers=headers)
+        response = requests.get(api_super_job, params=params, headers=headers)
+        response.raise_for_status()
+        page_data = response.json()
+        total = page_data['total']
+        pages = total
+
+        if page >= pages:
+            break
+
+        yield from page_data['objects']
+
+
+def search_vacancies_programmer(program_lang):
+    load_dotenv()
+
+    TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
+
+    api_hh = 'https://api.superjob.ru/2.0/vacancies/'
+    headers = {'X-Api-App-Id': TOKEN_SUPER_JOB}
+    params = {'town': 4,
+              'keyword': f'Программист {program_lang}'}
+    response = requests.get(api_hh, params=params, headers=headers)
     response.raise_for_status()
 
-    yield from response.json()['objects']
+    return response.json()['total']
 
 
 def predict_salary(salary_from, salary_to):
     if salary_from != 0 and salary_to != 0:
         return int(salary_from + salary_to / 2)
     elif salary_from == 0 and salary_to != 0:
-        return salary_to
+        return salary_to * 1.2
     elif salary_from != 0 and salary_to == 0:
-        return salary_from
+        return salary_from * 0.8
     else:
         pass
 
 
+def vacancies_processed(program_lang):
+    ls = []
+    for vacancy in fetch_records(program_lang):
+        avg = predict_salary(vacancy['payment_from'], vacancy['payment_to'])
+        ls.append(avg)
+    return len([processed for processed in ls if processed is not None])
+
+
+def get_avg_salary(program_lang):
+    ls = []
+    for vacancy in fetch_records(program_lang):
+        avg = predict_salary(vacancy['payment_from'], vacancy['payment_to'])
+        ls.append(avg)
+    return int(statistics.mean([avg_salary for avg_salary in ls if avg_salary is not None]))
+
+
+def main():
+    static_vacancy = {}
+    top_programmer_languages = ['JavaScript',
+                                'Java',
+                                'Python',
+                                'Ruby',
+                                'PHP',
+                                'C++',
+                                'C#',
+                                'C',
+                                'Go',
+                                'Swift']
+
+    for program_language in top_programmer_languages:
+        static_vacancy[program_language] = {'vacancies_found': search_vacancies_programmer(program_language),
+                                            'vacancies_processed': vacancies_processed(program_language),
+                                            'average_salary': get_avg_salary(program_language)}
+    return static_vacancy
+
+
 if __name__ == '__main__':
-    for i in predict_rub_salary_for_sj(TOKEN_SUPER_JOB, 'Python'):
-        print(predict_salary(i['payment_from'], i['payment_to']))
+    print(main())
