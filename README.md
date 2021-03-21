@@ -33,11 +33,11 @@ Write the data there in this format: `VARIABLE=value`.
 
 ## Libraries used
 
-- [requests](https://pypi.org/project/requests/) - for API requests
+- [Requests](https://pypi.org/project/requests/) - for API requests
 
-- [python-dotenv](https://pypi.org/project/python-dotenv/) - to access environment variables
+- [Python-Dotenv](https://pypi.org/project/python-dotenv/) - to access environment variables
 
-- [terminaltables](https://pypi.org/project/terminaltables/) - output to the terminal
+- [Terminaltables](https://pypi.org/project/terminaltables/) - output to the terminal
 
 
 ### Project Goals
