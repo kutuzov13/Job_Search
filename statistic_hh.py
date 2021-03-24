@@ -35,6 +35,7 @@ def search_vacancies_programmer(program_lang):
     headers = {'User-Agent': 'HH-User-Agent'}
     params = {'text': f'Программист {program_lang}',
               'area': 1}
+
     response = requests.get(api_hh, params=params, headers=headers)
     response.raise_for_status()
     return response.json()['found']
@@ -44,7 +45,11 @@ def get_statistic_hh(programmer_languages):
     statistics_vacancy = {}
 
     for program_language in programmer_languages:
-        statistics_vacancy[program_language] = {'vacancies_found': search_vacancies_programmer(program_language),
-                                                'vacancies_processed': len(fetch_records(program_language)),
-                                                'average_salary': int(statistics.mean(fetch_records(program_language)))}
+        vacancies_found = search_vacancies_programmer(program_language)
+        vacancies_processed = len(fetch_records(program_language))
+        avg_salary = int(statistics.mean(fetch_records(program_language)))
+
+        statistics_vacancy[program_language] = {'vacancies_found': vacancies_found,
+                                                'vacancies_processed': vacancies_processed,
+                                                'average_salary': avg_salary}
     return statistics_vacancy
