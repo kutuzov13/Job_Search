@@ -69,7 +69,7 @@ def get_avg_salary(program_lang):
     return int(statistics.mean([avg_salary for avg_salary in ls if avg_salary is not None]))
 
 
-def statistic_sj():
+def get_statistic_sj():
     static_vacancy = {}
     top_programmer_languages = ['JavaScript',
                                 'Java',

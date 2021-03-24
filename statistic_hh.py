@@ -51,7 +51,7 @@ def get_avg_salary(program_lang):
     return int(statistics.mean([avg_salary for avg_salary in avg_salaries if avg_salary is not None]))
 
 
-def statistic_hh():
+def get_statistic_hh():
     static_vacancy = {}
     top_programmer_languages = ['JavaScript',
                                 'Java',
@@ -71,4 +71,4 @@ def statistic_hh():
 
 
 if __name__ == '__main__':
-    print(statistic_hh())
+    print(get_statistic_hh())
