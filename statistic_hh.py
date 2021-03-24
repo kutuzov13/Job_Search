@@ -3,11 +3,14 @@ from itertools import count
 
 import requests
 
+from utils import predict_salary
+
 
 def fetch_records(program_lang):
     api_hh = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
     id_moscow = 1
+    salaries = []
 
     for page in count():
         params = {'text': f'Программист {program_lang}',
@@ -21,14 +24,11 @@ def fetch_records(program_lang):
         if page >= page_data['pages']:
             break
 
-        for item in page_data['items']:
-            if not item['salary']:
-                continue
+        for vacancy in page_data['items']:
+            if vacancy['salary']['currency'] == 'RUR':
 
-            if not item['salary']['currency'] == 'RUR':
-                continue
-
-        yield from page_data['items']
+                salaries.append(int(predict_salary(vacancy['salary']['from'], vacancy['salary']['to'])))
+    return salaries
 
 
 def search_vacancies_programmer(program_lang):
@@ -41,32 +41,11 @@ def search_vacancies_programmer(program_lang):
     return response.json()['found']
 
 
-def predict_rub_salary(salary_from, salary_to):
-    if salary_from and salary_to:
-        return salary_from + salary_to / 2
-    if salary_from and salary_to is None:
-        return salary_from * 1.2
-    if salary_to and salary_from is None:
-        return salary_to * 0.8
-
-
-def vacancies_processed(program_lang):
-    number_vacancies = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in
-                        fetch_records(program_lang)]
-    return len([processed for processed in number_vacancies if processed is not None])
-
-
-def get_avg_salary(program_lang):
-    avg_salaries = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in
-                    fetch_records(program_lang)]
-    return int(statistics.mean([avg_salary for avg_salary in avg_salaries if avg_salary is not None]))
-
-
 def get_statistic_hh(programmer_languages):
     statistics_vacancy = {}
 
     for program_language in programmer_languages:
         statistics_vacancy[program_language] = {'vacancies_found': search_vacancies_programmer(program_language),
-                                                'vacancies_processed': vacancies_processed(program_language),
-                                                'average_salary': get_avg_salary(program_language)}
+                                                'vacancies_processed': len(fetch_records(program_language)),
+                                                'average_salary': int(statistics.mean(fetch_records(program_language)))}
     return statistics_vacancy
