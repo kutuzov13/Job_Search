@@ -4,8 +4,8 @@ from terminaltables import AsciiTable
 def get_table_data(data):
     table_data = []
 
-    for lang, info in data.items():
-        row = [lang, info['vacancies_found'], info['vacancies_processed'], info['average_salary']]
+    for lang, statistics in data.items():
+        row = [lang, statistics['vacancies_found'], statistics['vacancies_processed'], statistics['average_salary']]
         table_data.append(row)
 
     return table_data
