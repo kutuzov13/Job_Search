@@ -26,7 +26,6 @@ def fetch_records(program_lang):
 
         for vacancy in page_data['items']:
             if vacancy['salary']['currency'] == 'RUR':
-
                 salaries.append(int(predict_salary(vacancy['salary']['from'], vacancy['salary']['to'])))
     return salaries
 
