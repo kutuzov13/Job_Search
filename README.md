@@ -41,4 +41,4 @@ Write the data there in this format: `VARIABLE=value`.
 
 
 ### Project Goals
-The code is written for educational purposes on online-course for web-developers [devman](https://dvmn.org/modules/)..
+The code is written for educational purposes on online-course for web-developers [devman](https://dvmn.org/modules/).
