@@ -12,11 +12,12 @@ def fetch_records(program_lang):
     id_moscow = 1
     salaries = []
 
-    for page in count():
+    for page in count(0):
         params = {'text': f'Программист {program_lang}',
                   'page': page,
                   'area': id_moscow,
                   'only_with_salary': 'true'}
+
         page_response = requests.get(api_hh, params=params, headers=headers)
         page_response.raise_for_status()
         page_data = page_response.json()
@@ -33,11 +34,14 @@ def fetch_records(program_lang):
 def search_vacancies_programmer(program_lang):
     api_hh = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
+    id_moscow = 1
+
     params = {'text': f'Программист {program_lang}',
-              'area': 1}
+              'area': id_moscow}
 
     response = requests.get(api_hh, params=params, headers=headers)
     response.raise_for_status()
+
     return response.json()['found']
 
 
