@@ -37,8 +37,6 @@ def predict_rub_salary(salary):
         return salary['from'] * 1.2
     if salary['to'] and salary['from'] is None and salary['currency'] == 'RUR':
         return salary['to'] * 0.8
-    else:
-        pass
 
 
 def vacancies_processed(program_lang):

@@ -48,8 +48,6 @@ def predict_salary(salary_from, salary_to):
         return salary_to * 1.2
     elif salary_from != 0 and salary_to == 0:
         return salary_from * 0.8
-    else:
-        pass
 
 
 def vacancies_processed(program_lang):
