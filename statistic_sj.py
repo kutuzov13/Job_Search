@@ -11,7 +11,6 @@ TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
 
 
 def fetch_records(program_lang):
-
     api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': TOKEN_SUPER_JOB}
     for page in count(0):
@@ -84,6 +83,6 @@ def get_statistic_sj():
 
     for program_language in top_programmer_languages:
         statistics_vacancy[program_language] = {'vacancies_found': search_vacancies_programmer(program_language),
-                                            'vacancies_processed': vacancies_processed(program_language),
-                                            'average_salary': get_avg_salary(program_language)}
+                                                'vacancies_processed': vacancies_processed(program_language),
+                                                'average_salary': get_avg_salary(program_language)}
     return statistics_vacancy

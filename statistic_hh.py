@@ -65,8 +65,8 @@ def get_statistic_hh():
                                 'Swift']
     for program_language in top_programmer_languages:
         statistics_vacancy[program_language] = {'vacancies_found': search_vacancies_programmer(program_language),
-                                            'vacancies_processed': vacancies_processed(program_language),
-                                            'average_salary': get_avg_salary(program_language)}
+                                                'vacancies_processed': vacancies_processed(program_language),
+                                                'average_salary': get_avg_salary(program_language)}
     return statistics_vacancy
 
 
