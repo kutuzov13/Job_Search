@@ -51,24 +51,12 @@ def get_avg_salary(program_lang):
     return int(statistics.mean([avg_salary for avg_salary in avg_salaries if avg_salary is not None]))
 
 
-def get_statistic_hh():
+def get_statistic_hh(programmer_languages):
     statistics_vacancy = {}
-    top_programmer_languages = ['JavaScript',
-                                'Java',
-                                'Python',
-                                'Ruby',
-                                'PHP',
-                                'C++',
-                                'C#',
-                                'C',
-                                'Go',
-                                'Swift']
-    for program_language in top_programmer_languages:
+
+    for program_language in programmer_languages:
         statistics_vacancy[program_language] = {'vacancies_found': search_vacancies_programmer(program_language),
                                                 'vacancies_processed': vacancies_processed(program_language),
                                                 'average_salary': get_avg_salary(program_language)}
     return statistics_vacancy
 
-
-if __name__ == '__main__':
-    print(get_statistic_hh())
