@@ -2,7 +2,7 @@
 
 The script displays data on the average salary of popular programming languages.
 
-Data is taken through the sites API [HH](https://dev.hh.ru/) и [SuperJob](https://api.superjob.ru/).
+Data is taken through the sites API [HH](https://dev.hh.ru/) and [SuperJob](https://api.superjob.ru/).
 
 
 ### How to install
