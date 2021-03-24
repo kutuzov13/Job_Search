@@ -3,11 +3,13 @@ import statistics
 from itertools import count
 
 import requests
+from dotenv import load_dotenv
 
 
 def fetch_records(program_lang):
+    super_job_token = os.getenv('TOKEN_SUPER_JOB')
     api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': os.getenv('TOKEN_SUPER_JOB')}
+    headers = {'X-Api-App-Id': super_job_token}
     for page in count(0):
         params = {'town': 4,
                   'page': page,
@@ -25,11 +27,14 @@ def fetch_records(program_lang):
 
 
 def search_vacancies_programmer(program_lang):
-    api_hh = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': os.getenv('TOKEN_SUPER_JOB')}
-    params = {'town': 4,
+    token_super_job = os.getenv('TOKEN_SUPER_JOB')
+
+    api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
+    headers = {'X-Api-App-Id': token_super_job}
+    params = {'town': 'Москва',
               'keyword': f'Программист {program_lang}'}
-    response = requests.get(api_hh, params=params, headers=headers)
+
+    response = requests.get(api_super_job, params=params, headers=headers)
     response.raise_for_status()
 
     return response.json()['total']
@@ -68,4 +73,3 @@ def get_statistic_sj(programmer_languages):
                                                 'vacancies_processed': vacancies_processed(program_language),
                                                 'average_salary': get_avg_salary(program_language)}
     return statistics_vacancy
-

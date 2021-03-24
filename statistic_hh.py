@@ -7,16 +7,27 @@ import requests
 def fetch_records(program_lang):
     api_hh = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
+    id_moscow = 1
+
     for page in count():
         params = {'text': f'Программист {program_lang}',
                   'page': page,
-                  'area': 1,
+                  'area': id_moscow,
                   'only_with_salary': 'true'}
         page_response = requests.get(api_hh, params=params, headers=headers)
         page_response.raise_for_status()
         page_data = page_response.json()
+
         if page >= page_data['pages']:
             break
+
+        for item in page_data['items']:
+            if not item['salary']:
+                continue
+
+            if not item['salary']['currency'] == 'RUR':
+                continue
+
         yield from page_data['items']
 
 
@@ -40,12 +51,14 @@ def predict_rub_salary(salary_from, salary_to):
 
 
 def vacancies_processed(program_lang):
-    number_vacancies = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in fetch_records(program_lang)]
+    number_vacancies = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in
+                        fetch_records(program_lang)]
     return len([processed for processed in number_vacancies if processed is not None])
 
 
 def get_avg_salary(program_lang):
-    avg_salaries = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in fetch_records(program_lang)]
+    avg_salaries = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in
+                    fetch_records(program_lang)]
     return int(statistics.mean([avg_salary for avg_salary in avg_salaries if avg_salary is not None]))
 
 
@@ -57,4 +70,3 @@ def get_statistic_hh(programmer_languages):
                                                 'vacancies_processed': vacancies_processed(program_language),
                                                 'average_salary': get_avg_salary(program_language)}
     return statistics_vacancy
-
