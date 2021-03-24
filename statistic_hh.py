@@ -30,22 +30,22 @@ def search_vacancies_programmer(program_lang):
     return response.json()['found']
 
 
-def predict_rub_salary(salary):
-    if salary['from'] and salary['to'] and salary['currency'] == 'RUR':
-        return salary['from'] + salary['to'] / 2
-    if salary['from'] and salary['to'] is None and salary['currency'] == 'RUR':
-        return salary['from'] * 1.2
-    if salary['to'] and salary['from'] is None and salary['currency'] == 'RUR':
-        return salary['to'] * 0.8
+def predict_rub_salary(salary_from, salary_to):
+    if salary_from and salary_to:
+        return salary_from + salary_to / 2
+    if salary_from and salary_to is None:
+        return salary_from * 1.2
+    if salary_to and salary_from is None:
+        return salary_to * 0.8
 
 
 def vacancies_processed(program_lang):
-    number_vacancies = [predict_rub_salary(vacancy['salary']) for vacancy in fetch_records(program_lang)]
+    number_vacancies = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in fetch_records(program_lang)]
     return len([processed for processed in number_vacancies if processed is not None])
 
 
 def get_avg_salary(program_lang):
-    avg_salaries = [predict_rub_salary(salary['salary']) for salary in fetch_records(program_lang)]
+    avg_salaries = [predict_rub_salary(salary['salary']['from'], salary['salary']['to']) for salary in fetch_records(program_lang)]
     return int(statistics.mean([avg_salary for avg_salary in avg_salaries if avg_salary is not None]))
 
 

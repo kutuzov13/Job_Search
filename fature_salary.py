@@ -2,6 +2,8 @@ from terminaltable import get_table_data, create_table
 from statistic_hh import get_statistic_hh
 from statistic_sj import get_statistic_sj
 
+from dotenv import load_dotenv
+
 top_programmer_languages = ['JavaScript',
                             'Java',
                             'Python',
@@ -15,6 +17,7 @@ top_programmer_languages = ['JavaScript',
 
 
 def main():
+    load_dotenv()
     print('Wait for the data to be received...')
 
     hh_info = get_statistic_hh(top_programmer_languages)

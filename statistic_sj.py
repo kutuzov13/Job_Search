@@ -3,16 +3,11 @@ import statistics
 from itertools import count
 
 import requests
-from dotenv import load_dotenv
-
-load_dotenv()
-
-TOKEN_SUPER_JOB = os.getenv('TOKEN_SUPER_JOB')
 
 
 def fetch_records(program_lang):
     api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': TOKEN_SUPER_JOB}
+    headers = {'X-Api-App-Id': os.getenv('TOKEN_SUPER_JOB')}
     for page in count(0):
         params = {'town': 4,
                   'page': page,
@@ -22,9 +17,8 @@ def fetch_records(program_lang):
         response.raise_for_status()
         page_data = response.json()
         total = page_data['total']
-        pages = total
 
-        if page >= pages:
+        if page >= total:
             break
 
         yield from page_data['objects']
@@ -32,7 +26,7 @@ def fetch_records(program_lang):
 
 def search_vacancies_programmer(program_lang):
     api_hh = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': TOKEN_SUPER_JOB}
+    headers = {'X-Api-App-Id': os.getenv('TOKEN_SUPER_JOB')}
     params = {'town': 4,
               'keyword': f'Программист {program_lang}'}
     response = requests.get(api_hh, params=params, headers=headers)
