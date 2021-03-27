@@ -7,10 +7,11 @@ import requests
 from utils import predict_salary
 
 
-def fetch_vacancies(program_lang):
-    super_job_token = os.getenv('TOKEN_SUPER_JOB')
+def fetch_vacancies(token, program_lang):
     super_job_api = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': super_job_token}
+
+    headers = {'X-Api-App-Id': token}
+
     salaries = []
 
     for page in count(0):
@@ -31,11 +32,12 @@ def fetch_vacancies(program_lang):
     return list(filter(None, salaries))
 
 
-def search_vacancies_programmer(program_lang):
-    token_super_job = os.getenv('TOKEN_SUPER_JOB')
+def search_vacancies_programmer(token, program_lang):
 
     super_job_token = 'https://api.superjob.ru/2.0/vacancies/'
-    headers = {'X-Api-App-Id': token_super_job}
+
+    headers = {'X-Api-App-Id': token}
+
     params = {'town': 'Москва',
               'keyword': f'Программист {program_lang}'}
 
@@ -46,14 +48,16 @@ def search_vacancies_programmer(program_lang):
 
 
 def get_statistic_sj(programmer_languages):
+    super_job_token = os.getenv('TOKEN_SUPER_JOB')
+
     job_statistics = {}
 
     for program_language in programmer_languages:
-        vacancies_found = search_vacancies_programmer(program_language)
-        vacancies_processed = len(fetch_vacancies(program_language))
-        avg_salary = int(statistics.mean(fetch_vacancies(program_language)))
+        vacancies_found = search_vacancies_programmer(super_job_token, program_language)
+        vacancies_processed = len(fetch_vacancies(super_job_token, program_language))
+        avg_salary = int(statistics.mean(fetch_vacancies(super_job_token, program_language)))
 
         job_statistics[program_language] = {'vacancies_found': vacancies_found,
-                                                'vacancies_processed': vacancies_processed,
-                                                'average_salary': avg_salary}
+                                            'vacancies_processed': vacancies_processed,
+                                            'average_salary': avg_salary}
     return job_statistics
