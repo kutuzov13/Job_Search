@@ -7,7 +7,7 @@ import requests
 from utils import predict_salary
 
 
-def fetch_records(program_lang):
+def fetch_vacancies(program_lang):
     super_job_token = os.getenv('TOKEN_SUPER_JOB')
     super_job_api = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': super_job_token}
@@ -50,8 +50,8 @@ def get_statistic_sj(programmer_languages):
 
     for program_language in programmer_languages:
         vacancies_found = search_vacancies_programmer(program_language)
-        vacancies_processed = len(fetch_records(program_language))
-        avg_salary = int(statistics.mean(fetch_records(program_language)))
+        vacancies_processed = len(fetch_vacancies(program_language))
+        avg_salary = int(statistics.mean(fetch_vacancies(program_language)))
 
         job_statistics[program_language] = {'vacancies_found': vacancies_found,
                                                 'vacancies_processed': vacancies_processed,

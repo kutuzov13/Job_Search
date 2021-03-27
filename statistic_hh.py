@@ -6,7 +6,7 @@ import requests
 from utils import predict_salary
 
 
-def fetch_records(program_lang):
+def fetch_vacancies(program_lang):
     head_hunter_api = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
     moscow_id = 1
@@ -50,8 +50,8 @@ def get_statistic_hh(programmer_languages):
 
     for program_language in programmer_languages:
         vacancies_found = search_vacancies_programmer(program_language)
-        vacancies_processed = len(fetch_records(program_language))
-        avg_salary = int(statistics.mean(fetch_records(program_language)))
+        vacancies_processed = len(fetch_vacancies(program_language))
+        avg_salary = int(statistics.mean(fetch_vacancies(program_language)))
 
         job_statistics[program_language] = {'vacancies_found': vacancies_found,
                                                 'vacancies_processed': vacancies_processed,
