@@ -28,7 +28,7 @@ def fetch_records(program_lang):
 
         for vacancy in page_data['objects']:
             salaries.append(predict_salary(int(vacancy['payment_from']), int(vacancy['payment_to'])))
-    return [avg_salary for avg_salary in salaries if avg_salary is not None]
+    return list(filter(None, salaries))
 
 
 def search_vacancies_programmer(program_lang):
