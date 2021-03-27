@@ -1,5 +1,3 @@
-import os
-
 from terminaltable import get_table_data, create_table
 from statistic_hh import get_statistic_hh
 from statistic_sj import get_statistic_sj
