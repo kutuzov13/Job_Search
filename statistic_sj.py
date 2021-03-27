@@ -8,6 +8,7 @@ from utils import predict_salary
 
 
 def fetch_vacancies(token, program_lang):
+
     super_job_api = 'https://api.superjob.ru/2.0/vacancies/'
 
     headers = {'X-Api-App-Id': token}
@@ -22,9 +23,9 @@ def fetch_vacancies(token, program_lang):
         response = requests.get(super_job_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
-        total = page_data['total']
+        next_pages = page_data['more']
 
-        if page >= total:
+        if not next_pages:
             break
 
         for vacancy in page_data['objects']:
