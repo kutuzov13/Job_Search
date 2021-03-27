@@ -9,7 +9,7 @@ from utils import predict_salary
 
 def fetch_records(program_lang):
     super_job_token = os.getenv('TOKEN_SUPER_JOB')
-    api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
+    super_job_api = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': super_job_token}
     salaries = []
 
@@ -18,7 +18,7 @@ def fetch_records(program_lang):
                   'page': page,
                   'keyword': f'Программист {program_lang}'}
 
-        response = requests.get(api_super_job, params=params, headers=headers)
+        response = requests.get(super_job_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
         total = page_data['total']
@@ -34,26 +34,26 @@ def fetch_records(program_lang):
 def search_vacancies_programmer(program_lang):
     token_super_job = os.getenv('TOKEN_SUPER_JOB')
 
-    api_super_job = 'https://api.superjob.ru/2.0/vacancies/'
+    super_job_token = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': token_super_job}
     params = {'town': 'Москва',
               'keyword': f'Программист {program_lang}'}
 
-    response = requests.get(api_super_job, params=params, headers=headers)
+    response = requests.get(super_job_token, params=params, headers=headers)
     response.raise_for_status()
 
     return response.json()['total']
 
 
 def get_statistic_sj(programmer_languages):
-    statistics_vacancy = {}
+    job_statistics = {}
 
     for program_language in programmer_languages:
         vacancies_found = search_vacancies_programmer(program_language)
         vacancies_processed = len(fetch_records(program_language))
         avg_salary = int(statistics.mean(fetch_records(program_language)))
 
-        statistics_vacancy[program_language] = {'vacancies_found': vacancies_found,
+        job_statistics[program_language] = {'vacancies_found': vacancies_found,
                                                 'vacancies_processed': vacancies_processed,
                                                 'average_salary': avg_salary}
-    return statistics_vacancy
+    return job_statistics
