@@ -8,17 +8,14 @@ from utils import predict_salary
 
 
 def fetch_vacancies(token, program_lang):
-
     super_job_api = 'https://api.superjob.ru/2.0/vacancies/'
-
     headers = {'X-Api-App-Id': token}
+    params = {'town': 'Москва',
+              'keyword': f'Программист {program_lang}'}
 
     salaries = []
-
     for page in count(0):
-        params = {'town': 'Москва',
-                  'page': page,
-                  'keyword': f'Программист {program_lang}'}
+        params['page'] = page
 
         response = requests.get(super_job_api, params=params, headers=headers)
         response.raise_for_status()

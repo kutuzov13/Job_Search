@@ -7,17 +7,16 @@ from utils import predict_salary
 
 
 def fetch_vacancies(program_lang):
-    head_hunter_api = 'https://api.hh.ru/vacancies'
     moscow_id = 1
+    head_hunter_api = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
+    params = {'text': f'Программист {program_lang}',
+              'area': moscow_id,
+              'only_with_salary': 'true'}
 
     salaries = []
     for page in count(0):
-        params = {'text': f'Программист {program_lang}',
-                  'page': page,
-                  'area': moscow_id,
-                  'only_with_salary': 'true'}
-
+        params['pages'] = page
         response = requests.get(head_hunter_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
