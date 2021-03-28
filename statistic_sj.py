@@ -25,11 +25,10 @@ def fetch_vacancies(token, program_lang):
         page_data = response.json()
         next_pages = page_data['more']
 
-        if not next_pages:
-            break
-
         for vacancy in page_data['objects']:
             salaries.append(predict_salary(int(vacancy['payment_from']), int(vacancy['payment_to'])))
+        if not next_pages:
+            break
     return list(filter(None, salaries))
 
 
