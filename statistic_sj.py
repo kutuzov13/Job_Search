@@ -23,28 +23,15 @@ def fetch_vacancies(token, program_lang):
         response = requests.get(super_job_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
+        total_vacancy = response.json()['total']
         next_pages = page_data['more']
 
         for vacancy in page_data['objects']:
             salaries.append(predict_salary(int(vacancy['payment_from']), int(vacancy['payment_to'])))
         if not next_pages:
             break
-    return list(filter(None, salaries))
 
-
-def search_vacancies_programmer(token, program_lang):
-
-    super_job_token = 'https://api.superjob.ru/2.0/vacancies/'
-
-    headers = {'X-Api-App-Id': token}
-
-    params = {'town': 'Москва',
-              'keyword': f'Программист {program_lang}'}
-
-    response = requests.get(super_job_token, params=params, headers=headers)
-    response.raise_for_status()
-
-    return response.json()['total']
+    return list(filter(None, salaries)), total_vacancy
 
 
 def get_statistic_sj(programmer_languages):
@@ -53,11 +40,8 @@ def get_statistic_sj(programmer_languages):
     job_statistics = {}
 
     for program_language in programmer_languages:
-        vacancies_found = search_vacancies_programmer(super_job_token, program_language)
-        vacancies_processed = len(fetch_vacancies(super_job_token, program_language))
-        avg_salary = int(statistics.mean(fetch_vacancies(super_job_token, program_language)))
-
-        job_statistics[program_language] = {'vacancies_found': vacancies_found,
-                                            'vacancies_processed': vacancies_processed,
-                                            'average_salary': avg_salary}
+        data_vacancy = fetch_vacancies(super_job_token, program_language)
+        job_statistics[program_language] = {'vacancies_found': data_vacancy[1],
+                                            'vacancies_processed': len(data_vacancy[0]),
+                                            'average_salary': int(statistics.mean(data_vacancy[0]))}
     return job_statistics
