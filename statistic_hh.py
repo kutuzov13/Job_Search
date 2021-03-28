@@ -8,10 +8,10 @@ from utils import predict_salary
 
 def fetch_vacancies(program_lang):
     head_hunter_api = 'https://api.hh.ru/vacancies'
-    headers = {'User-Agent': 'HH-User-Agent'}
     moscow_id = 1
-    salaries = []
+    headers = {'User-Agent': 'HH-User-Agent'}
 
+    salaries = []
     for page in count(0):
         params = {'text': f'Программист {program_lang}',
                   'page': page,
@@ -29,6 +29,7 @@ def fetch_vacancies(program_lang):
         for vacancy in page_data['items']:
             if vacancy['salary']['currency'] == 'RUR':
                 salaries.append(int(predict_salary(vacancy['salary']['from'], vacancy['salary']['to'])))
+
     return salaries, found_vacancy
 
 
@@ -36,9 +37,9 @@ def get_statistic_hh(programmer_languages):
     job_statistics = {}
 
     for program_language in programmer_languages:
-        data = fetch_vacancies(program_language)
+        data_vacancy = fetch_vacancies(program_language)
 
-        job_statistics[program_language] = {'vacancies_found': data[1],
-                                            'vacancies_processed': len(data[0]),
-                                            'average_salary': int(statistics.mean(data[0]))}
+        job_statistics[program_language] = {'vacancies_found': data_vacancy[1],
+                                            'vacancies_processed': len(data_vacancy[0]),
+                                            'average_salary': int(statistics.mean(data_vacancy[0]))}
     return job_statistics
