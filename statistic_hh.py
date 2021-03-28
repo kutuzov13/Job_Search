@@ -18,9 +18,10 @@ def fetch_vacancies(program_lang):
                   'area': moscow_id,
                   'only_with_salary': 'true'}
 
-        page_response = requests.get(head_hunter_api, params=params, headers=headers)
-        page_response.raise_for_status()
-        page_data = page_response.json()
+        response = requests.get(head_hunter_api, params=params, headers=headers)
+        response.raise_for_status()
+        page_data = response.json()
+        found_vacancy = response.json()['found']
 
         if page >= page_data['pages']:
             break
@@ -28,32 +29,16 @@ def fetch_vacancies(program_lang):
         for vacancy in page_data['items']:
             if vacancy['salary']['currency'] == 'RUR':
                 salaries.append(int(predict_salary(vacancy['salary']['from'], vacancy['salary']['to'])))
-    return salaries
-
-
-def search_vacancies_programmer(program_lang):
-    api_hh = 'https://api.hh.ru/vacancies'
-    headers = {'User-Agent': 'HH-User-Agent'}
-    id_moscow = 1
-
-    params = {'text': f'Программист {program_lang}',
-              'area': id_moscow}
-
-    response = requests.get(api_hh, params=params, headers=headers)
-    response.raise_for_status()
-
-    return response.json()['found']
+    return salaries, found_vacancy
 
 
 def get_statistic_hh(programmer_languages):
     job_statistics = {}
 
     for program_language in programmer_languages:
-        vacancies_found = search_vacancies_programmer(program_language)
-        vacancies_processed = len(fetch_vacancies(program_language))
-        avg_salary = int(statistics.mean(fetch_vacancies(program_language)))
+        data = fetch_vacancies(program_language)
 
-        job_statistics[program_language] = {'vacancies_found': vacancies_found,
-                                                'vacancies_processed': vacancies_processed,
-                                                'average_salary': avg_salary}
+        job_statistics[program_language] = {'vacancies_found': data[1],
+                                            'vacancies_processed': len(data[0]),
+                                            'average_salary': int(statistics.mean(data[0]))}
     return job_statistics
