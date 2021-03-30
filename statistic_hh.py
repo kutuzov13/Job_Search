@@ -20,7 +20,7 @@ def fetch_vacancies(program_lang):
         response = requests.get(head_hunter_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
-        found_vacancy = response.json()['found']
+        vacancies_found = response.json()['found']
 
         if page >= page_data['pages']:
             break
@@ -29,7 +29,7 @@ def fetch_vacancies(program_lang):
             if vacancy['salary']['currency'] == 'RUR':
                 salaries.append(int(predict_salary(vacancy['salary']['from'], vacancy['salary']['to'])))
 
-    return salaries, found_vacancy
+    return salaries, vacancies_found
 
 
 def get_statistic_hh(programmer_languages):

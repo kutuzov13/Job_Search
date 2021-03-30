@@ -20,7 +20,7 @@ def fetch_vacancies(token, program_lang):
         response = requests.get(super_job_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
-        total_vacancy = response.json()['total']
+        vacancies_found = response.json()['total']
         next_pages = page_data['more']
 
         for vacancy in page_data['objects']:
@@ -28,7 +28,7 @@ def fetch_vacancies(token, program_lang):
         if not next_pages:
             break
 
-    return list(filter(None, salaries)), total_vacancy
+    return list(filter(None, salaries)), vacancies_found
 
 
 def get_statistic_sj(super_job_token, programmer_languages):
