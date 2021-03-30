@@ -20,7 +20,7 @@ def fetch_vacancies(program_lang):
         response = requests.get(head_hunter_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
-        vacancies_found = response.json()['found']
+        vacancies_found = page_data['found']
 
         if page >= page_data['pages']:
             break

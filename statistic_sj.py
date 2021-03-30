@@ -1,4 +1,3 @@
-import os
 import statistics
 from itertools import count
 
@@ -20,7 +19,7 @@ def fetch_vacancies(token, program_lang):
         response = requests.get(super_job_api, params=params, headers=headers)
         response.raise_for_status()
         page_data = response.json()
-        vacancies_found = response.json()['total']
+        vacancies_found = page_data['total']
         next_pages = page_data['more']
 
         for vacancy in page_data['objects']:
