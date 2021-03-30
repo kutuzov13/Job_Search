@@ -31,9 +31,7 @@ def fetch_vacancies(token, program_lang):
     return list(filter(None, salaries)), total_vacancy
 
 
-def get_statistic_sj(programmer_languages):
-    super_job_token = os.getenv('TOKEN_SUPER_JOB')
-
+def get_statistic_sj(super_job_token, programmer_languages):
     job_statistics = {}
 
     for program_language in programmer_languages:
