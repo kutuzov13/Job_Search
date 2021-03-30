@@ -36,9 +36,9 @@ def get_statistic_hh(programmer_languages):
     job_statistics = {}
 
     for program_language in programmer_languages:
-        data_vacancy = fetch_vacancies(program_language)
+        salaries, vacancies_found = fetch_vacancies(program_language)
 
-        job_statistics[program_language] = {'vacancies_found': data_vacancy[1],
-                                            'vacancies_processed': len(data_vacancy[0]),
-                                            'average_salary': int(statistics.mean(data_vacancy[0]))}
+        job_statistics[program_language] = {'vacancies_found': vacancies_found,
+                                            'vacancies_processed': len(salaries),
+                                            'average_salary': int(statistics.mean(salaries))}
     return job_statistics
