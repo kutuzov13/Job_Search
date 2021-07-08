@@ -12,7 +12,7 @@ You need Python to run scripts.
 Download the code from GitHub.
 
 ```
-git clone https://github.com/kutuzov13/Job_Search.git
+git clone https://github.com/kutuzov13/JobStatistic.git
 ```
 
 Install dependencies:
