@@ -1,7 +1,9 @@
+from typing import List
+
 from terminaltables import AsciiTable
 
 
-def get_table_data(data):
+def get_table_data(data) -> List:
     table_data = []
 
     for lang, statistics in data.items():

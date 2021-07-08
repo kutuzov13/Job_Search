@@ -1,12 +1,13 @@
 import statistics
 from itertools import count
+from typing import Dict, Tuple
 
 import requests
 
 from utils import predict_salary
 
 
-def fetch_vacancies(token, program_lang):
+def fetch_vacancies(token: str, program_lang: str) -> Tuple:
     super_job_api = 'https://api.superjob.ru/2.0/vacancies/'
     headers = {'X-Api-App-Id': token}
     params = {'town': 'Москва',
@@ -30,7 +31,7 @@ def fetch_vacancies(token, program_lang):
     return list(filter(None, salaries)), vacancies_found
 
 
-def get_statistic_sj(super_job_token, programmer_languages):
+def get_statistic_sj(super_job_token: str, programmer_languages: list) -> Dict:
     job_statistics = {}
 
     for program_language in programmer_languages:

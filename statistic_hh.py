@@ -1,12 +1,13 @@
 import statistics
 from itertools import count
+from typing import Tuple, Dict
 
 import requests
 
 from utils import predict_salary
 
 
-def fetch_vacancies(program_lang):
+def fetch_vacancies(program_lang: str) -> Tuple:
     moscow_id = 1
     head_hunter_api = 'https://api.hh.ru/vacancies'
     headers = {'User-Agent': 'HH-User-Agent'}
@@ -32,7 +33,7 @@ def fetch_vacancies(program_lang):
     return salaries, vacancies_found
 
 
-def get_statistic_hh(programmer_languages):
+def get_statistic_hh(programmer_languages: list) -> Dict:
     job_statistics = {}
 
     for program_language in programmer_languages:

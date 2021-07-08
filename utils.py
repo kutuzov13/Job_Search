@@ -1,4 +1,7 @@
-def predict_salary(salary_from, salary_to):
+from typing import Optional
+
+
+def predict_salary(salary_from: int, salary_to: int) -> Optional[float]:
     avg_salary = None
 
     if salary_from and salary_to:
