@@ -1,21 +1,22 @@
 import os
-from terminaltable import get_table_data, create_table
-from statistic_hh import get_statistic_hh
-from statistic_sj import get_statistic_sj
 
 from dotenv import load_dotenv
+from statistic_hh import get_statistic_hh
+from statistic_sj import get_statistic_sj
+from terminaltable import create_table, get_table_data
 
-
-PROGRAMMING_LANGUAGES = ['JavaScript',
-                         'Java',
-                         'Python',
-                         'Ruby',
-                         'PHP',
-                         'C++',
-                         'C#',
-                         'C',
-                         'Go',
-                         'Swift']
+PROGRAMMING_LANGUAGES = [
+    'JavaScript',
+    'Java',
+    'Python',
+    'Ruby',
+    'PHP',
+    'C++',
+    'C#',
+    'C',
+    'Go',
+    'Swift',
+]
 
 
 def main():
